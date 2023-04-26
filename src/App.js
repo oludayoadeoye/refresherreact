@@ -18,15 +18,49 @@ const PokemonRow=({pokemon, onSelect})=>(
     </tr>
 );
 
+
+
 PokemonRow.propTypes = {
     pokemon:PropTypes.shape({
         name: PropTypes.shape({
-            english: PropTypes.string,
+            english: PropTypes.string.isRequired,
         }),
-        type:PropTypes.arrayOf(PropTypes.string),
+        type:PropTypes.arrayOf(PropTypes.string.isRequired),
         onSelect: PropTypes.func,
     }),
 }
+
+const PokemonInfo=({name,base})=>(
+    <div>
+        <h1>{name.english}</h1>
+        <table>
+            <tbody>
+            {
+Object.keys(base)
+    .map( (key)=>(
+        <tr key={key}>
+            <td>{key}</td>
+            <td>{base[key]}</td>
+        </tr>
+    ) )           }
+            </tbody>
+        </table>
+    </div>
+);
+
+PokemonInfo.propTypes ={
+    name: PropTypes.shape({
+        english: PropTypes.string.isRequired
+    }),
+    base: PropTypes.shape({
+        HP: PropTypes.number.isRequired,
+        Attack: PropTypes.number.isRequired,
+        Defense: PropTypes.number.isRequired,
+        "Sp. Attack": PropTypes.number.isRequired,
+        "Sp. Defense": PropTypes.number.isRequired,
+        Speed: PropTypes.number.isRequired,
+    })
+};
 function App() {
 
     const [filter, filterSet]=React.useState(""); //array
@@ -70,11 +104,7 @@ function App() {
         </table>
 
     </div>
-    {selectedItem && (
-        <div>
-            <h1>{selectedItem.name.english}</h1>
-        </div>
-    )}
+    {selectedItem && <PokemonInfo {...selectedItem}/>}
 </div>
     </div>
   );
