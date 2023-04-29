@@ -1,8 +1,7 @@
 import logo from './logo.svg';
 import React from "react";
 import './App.css';
-import pokemon from "./pokemon.json";
-import PropTypes from "prop-types";
+
 
 
 const PokemonRow=({pokemon, onSelect})=>(
@@ -65,6 +64,14 @@ function App() {
 
     const [filter, filterSet]=React.useState(""); //array
     const [selectedItem, selectedItemSet]=React.useState(null); //state
+    const [pokemon, pokemonSet]=React.useState([]); //state
+
+
+    React.useEffect(()=>{
+       fetch("http://localhost:3000/%20refresherreact/pokemon.json")
+           .then((response)=>response.json())
+           .then((data)=>pokemonSet(data))
+    },[])
   return (
     <div style={{
   margin:"auto",
